@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理后台</title>
+    <script src="{{JS_PATH}}jquery-1.8.3.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{CSS_PATH}}easy.css">
+</head>
+<body>
+   <div class="whole">
+       <section class="header">
+           <span class="title"><a href="/">欢迎来到EasyQueue</a></span>
+           <span class="userName">
+               {{$userName}}  /
+               <a href="/index/login/loginOut?{{$xdebug}}">注销账号</a>  /
+               <a href="/index/redis/edit?{{$xdebug}}">新增队列</a>
+           </span>
+       </section>
+       <section class="container">
+           <section class="warn">
+               请注意！！！！！！！<br/>
+               1、本产品目前仅支持blPop，所以操作入队的时候，请注意采用rPush！<br/>
+               2、本产品目前对于队列数据仅使用php的json_encode进行处理，如果是其他语言项目请注意处理兼容性！<br/>
+               3、建议Key名采用文件夹形式，例如EasyQueue:Log<br/>
+           </section>
+           <form action="/index/redis/save?{{$xdebug}}" method="post" name="createManager" onsubmit="return valid();">
+               <section class="box">
+                   <input class="form-input" type="text" name="name" value="{{$name}}" maxlength="25" minlength="2" placeholder="队列名称"/>
+               </section>
+               <section class="box">
+                   <input class="form-input" type="text" name="select" value="{{$select}}" maxlength="3" placeholder="队列key所在的库"/>
+               </section>
+               <section class="box">
+                   <input class="form-input" type="text" name="key" value="{{$key}}" maxlength="100" placeholder="队列监听的key"/>
+               </section>
+               <section class="box">
+                   <input class="form-input" type="text" name="maxlength" value="{{$maxlength}}" maxlength="20" placeholder="单进程处理最大的数量(-1表示不限)"/>
+               </section>
+               <section class="box">
+                   <input class="form-input" type="text" name="processNormal" value="{{$processNormal}}" maxlength="2" placeholder="日常进程数"/>
+               </section>
+               <section class="box">
+                   <input class="form-input" type="text" name="processMax" value="{{$processMax}}" maxlength="2" placeholder="最大可开进程数(-1表示不限制)"/>
+               </section>
+
+               <section class="box split">
+                   <input class="form-input" type="text" name="ip" maxlength="100" value="{{$ip}}" placeholder="redis主机IP"/>
+               </section>
+               <section class="box">
+                   <input class="form-input" type="text" name="port" value="{{$port}}" maxlength="6" placeholder="redis主机端口"/>
+               </section>
+               <section class="box">
+                   <input class="form-input" type="text" name="auth" value="{{$auth}}" maxlength="10"  placeholder="redis连接密码【无密码可不输】"/>
+               </section>
+
+               <section class="box split">
+                   <input class="form-input" type="text" name="curl" maxlength="100" value="{{$curl}}" placeholder="CURL对象[http://xx.xxx]"/>
+               </section>
+
+               <section class="box">
+                   <button class="form-btn submit">创建队列</button>
+               </section>
+
+               <input  type="hidden" name="no" value="{{$no}}"/>
+           </form>
+       </section>
+   </div>
+</body>
+</html>

@@ -8,7 +8,12 @@
 
 3、进入后台之后，右上角会有“新增队列/注销账号”两个功能，新增队列的时候，按照要求输入数据即可，当redis连接不上的话，会有对应的提示
 
-4、项目目录到/public下php server.php start或者php server.php stop，开启或者关闭进程
+4、项目目录到/public下php server.php start或者php server.php stop，开启或者关闭进程【此步骤之前必须执行完1、2、3】
+
+# 如何查看进程情况
+1、后台新增的监听可以查看
+
+2、可以通过 ps -ef | grep EASY 查看
 
 # 希望
 1、希望和我一样对于java多线程不是很了解，或者是为了帮助我们这群人的技术大牛能够，一起帮我维护这个项目

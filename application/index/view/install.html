@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建EasyQueue超级账户</title>
+    <script src="{{JS_PATH}}jquery-1.8.3.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{CSS_PATH}}install.css">
+</head>
+<body>
+   <div class="whole">
+    <section class="container">
+        <section class="title">
+            欢迎注册EasyQueue超级管理员账户
+        </section>
+        <form action="/index/install/createManager?{{$xdebug}}" method="post" name="createManager" onsubmit="return valid();">
+            <section class="box">
+               <input class="form-input" type="text" name="superUser" maxlength="25" minlength="6" placeholder="请输入超级账户名【6-25字符】"/>
+            </section>
+            <section class="box">
+                <input class="form-input" type="password" name="superPassword" maxlength="25" minlength="6" placeholder="请输入超级账户密码【6-25字符】"/>
+            </section>
+            <section class="box">
+                <input class="form-input" type="password" name="reSuperPassword" maxlength="25" minlength="6" placeholder="请重复超级账户密码【6-25字符】"/>
+            </section>
+            <section class="box">
+                <button class="form-btn submit">创建超级账户</button>
+            </section>
+        </form>
+    </section>
+   </div>
+</body>
+<script>
+    function valid(){
+        var supUser = $("input[name='superUser']").val();
+        var superPassword = $("input[name='superPassword']").val();
+        var reSuperPassword = $("input[name='reSuperPassword']").val();
+
+        if(supUser<6){
+            alert('超级账户必须6-25个字符哦');
+            return false;
+        }
+
+        if(superPassword<6){
+            alert('超级账户密码必须6-25个字符哦');
+            return false;
+        }
+
+        if(reSuperPassword != superPassword){
+            alert('超级账户密码必须和重复密码一致');
+            return false;
+        }
+
+       return true;
+    }
+</script>
+</html>

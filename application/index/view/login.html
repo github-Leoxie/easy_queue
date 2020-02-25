@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <script src="{{JS_PATH}}jquery-1.8.3.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{CSS_PATH}}install.css">
+</head>
+<body>
+   <div class="whole">
+    <section class="container">
+        <section class="title">
+            欢迎登录EasyQueue
+        </section>
+        <form action="/index/login/checkLogin?{{$xdebug}}" method="post" name="checkLogin" onsubmit="return valid();">
+            <section class="box">
+               <input class="form-input" type="text" name="superUser" maxlength="25" minlength="6" placeholder="请输入超级账户名【6-25字符】"/>
+            </section>
+            <section class="box">
+                <input class="form-input" type="password" name="superPassword" maxlength="25" minlength="6" placeholder="请输入超级账户密码【6-25字符】"/>
+            </section>
+            <section class="box">
+                <button class="form-btn submit">登录后台</button>
+            </section>
+        </form>
+    </section>
+   </div>
+</body>
+<script>
+    function valid(){
+        var supUser = $("input[name='superUser']").val();
+        var superPassword = $("input[name='superPassword']").val();
+
+        if(supUser<6){
+            alert('超级账户必须6-25个字符哦');
+            return false;
+        }
+
+        if(superPassword<6){
+            alert('超级账户密码必须6-25个字符哦');
+            return false;
+        }
+
+       return true;
+    }
+</script>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理后台</title>
+    <script src="{{JS_PATH}}jquery-1.8.3.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{CSS_PATH}}easy.css">
+</head>
+<body>
+   <div class="whole">
+       <section class="header">
+           <span class="title"><a href="/">欢迎来到EasyQueue</a></span>
+           <span class="userName">
+               {{$userName}}  /
+               <a href="/index/login/loginOut">注销账号</a>  /
+               <a href="/index/redis/edit">新增队列</a>
+           </span>
+       </section>
+       <section class="container">
+           <table cellpadding="0" cellspacing="0">
+               <thead>
+                 <th>进程名</th>
+                 <th>Redis Key</th>
+                 <th>当前进程情况</th>
+                 <th>单进程消费上限</th>
+                 <th>日常基础进程数</th>
+                 <th>最大进程数</th>
+                 <th>操作</th>
+               </thead>
+               <tbody>
+                   {{$tableString}}
+               </tbody>
+           </table>
+       </section>
+   </div>
+</body>
+</html>
