@@ -15,6 +15,16 @@
 
 2、可以通过 ps -ef | grep EASY 查看
 
+结果如下：
+root@e2af0a1a2996:/mnt/www/project/easy_queue/public# ps -ef | grep EASY
+root     33328     0  3 16:05 pts/1    00:00:00 EASY-QUEUE-MASTER
+root     33329 33328  0 16:05 pts/1    00:00:00 EASY-QUEUE-CHILDabfff33a1ef3d6d96685a63f80329b1d-33329
+root     33330 33328  0 16:05 pts/1    00:00:00 EASY-QUEUE-CHILDabfff33a1ef3d6d96685a63f80329b1d-33330
+root     33331 33328  0 16:05 pts/1    00:00:00 EASY-QUEUE-CHILDabfff33a1ef3d6d96685a63f80329b1d-33331
+root     33334 33328  0 16:05 pts/1    00:00:00 EASY-QUEUE-CHILDabfff33a1ef3d6d96685a63f80329b1d-33334
+root     33336 33328  0 16:05 pts/1    00:00:00 EASY-QUEUE-CHILDabfff33a1ef3d6d96685a63f80329b1d-33336
+root     33338 33328  0 16:05 pts/1    00:00:00 EASY-QUEUE-CHILDabfff33a1ef3d6d96685a63f80329b1d-33338
+
 # 希望
 1、希望和我一样对于java多线程不是很了解，或者是为了帮助我们这群人的技术大牛能够，一起帮我维护这个项目
 
