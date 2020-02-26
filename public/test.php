@@ -1,7 +1,8 @@
 <?php
 
-  function aa(){
-      return '11111xxxx';
+  try{
+    throw new \Error('bbbb');
+  //    throw new \Exception('bbb');
+  }catch(\Exception $ex){
+    echo $ex->getMessage()."\n";
   }
-
-  echo aa();
