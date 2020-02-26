@@ -51,8 +51,8 @@ abstract class Process
         }
 
         clearstatcache();//filesystem的静态缓存
-        $fileSize = file_exists($file)?filesize($file):0;
-        if($fileSize > Config::get('pcntlFileSize')){
+        $fileSize = file_exists($file)?@filesize($file):0;
+        if((int)$fileSize > Config::get('pcntlFileSize')){
             //清空文件
             file_put_contents($file,'');
         }
