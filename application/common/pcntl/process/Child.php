@@ -118,6 +118,7 @@ class Child extends Process
         $jsonData = Tools::HttpPostJson($url, $paramStr, 3);
 
         self::printLog([
+            'title'=>'接口响应',
             'url'=>$url,
             'paramStr'=>$paramStr,
             'jsonData'>$jsonData
