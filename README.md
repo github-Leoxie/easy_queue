@@ -14,7 +14,7 @@
 1、后台新增的监听可以查看
 
 后台如下：
-![后台截图](https://github.com/github-Leoxie/easy_queue/blob/master/jt.png)
+![后台截图](https://github.com/github-Leoxie/easy_queue/blob/master/doc/jt.png)
 
 
 2、可以通过 ps -ef | grep EASY 查看
