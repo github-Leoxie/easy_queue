@@ -1,4 +1,4 @@
-ThinkPHP遵循Apache2开源协议发布，并提供免费使用。
+EasyQueue遵循Apache2开源协议发布，并提供免费使用。
 版权所有Copyright © 2006-2016 by ThinkPHP (http://www.chensennet.com)
 All rights reserved。
 ThinkPHP® 商标和著作权所有者为上海辰森科技有限公司。
