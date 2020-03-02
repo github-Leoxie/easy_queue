@@ -36,44 +36,7 @@ class Child extends Process
             $redisManager->connect($listener->getIp(), $listener->getPort(), $listener->getAuth());
 
             while (true) {
-
-                $listener = self::reloadLister(self::$no);
-
-                //时刻关注进程情况，判断我是不是，是将死之人
-                $killStatus = self::isNeedDelProcess(self::$no, self::$childPid, $listener);
-                if ($killStatus === true) {
-                    self::printLog("进程失控{$killStatus}", true);//需要自杀
-                }
-                //消费redis的数据
-                $content = $redisManager->blPop($listener->getKey());
-                self::printLog('消费数据'.var_export($content,true));
-                //开始消费
-                $iscConsume = false;
-                try {
-                    $url = $listener->getCurl();
-                    $paramStr = json_encode($content, JSON_UNESCAPED_UNICODE);
-                    $jsonData = Tools::HttpPostJson($url, $paramStr, 3);
-
-                    self::printLog([
-                        'url'=>$url,
-                        'paramStr'=>$paramStr,
-                        'jsonData'>$jsonData
-                    ]);
-
-                    $arrData = @json_decode($jsonData, true);
-
-                    if (isset($arrData['code']) && in_array($arrData['code'], [0, 200, '0', '200'], true)) {
-                        $iscConsume = true;
-                    }
-
-                } catch (\Exception $ex) {
-                    self::printLog('请求异常'.$ex->getMessage());
-                }
-
-                //重新入队
-                if ($iscConsume === false) {
-                    $redisManager->rPush($listener->getKey(), $content);
-                }
+                self::consume($redisManager);
             }
 
         }catch (\Exception $ex){
@@ -111,5 +74,61 @@ class Child extends Process
 
         $countProcess = count($processPid);
         return $countProcess > $needProcessNum && $countProcess > $listener->getProcessNormal();
+    }
+
+    private static function consume(RedisManager $redisManager): void {
+        $listener = self::reloadLister(self::$no);
+
+        //时刻关注进程情况，判断我是不是，是将死之人
+        $killStatus = self::isNeedDelProcess(self::$no, self::$childPid, $listener);
+        if ($killStatus === true) {
+            self::printLog("进程失控{$killStatus}", true);//需要自杀
+        }
+        //消费redis的数据
+        $content = '';
+        try {
+            $content = $redisManager->blPop($listener->getKey());
+        } catch (\Exception $e) {
+            self::printLog('出队异常（redis可能死掉了，我要自杀）：'.$e->getMessage(),true);
+        }
+
+        self::printLog('消费数据'.var_export($content,true));
+        $iscConsume = false;
+        //开始消费
+        try {
+            $iscConsume = self::consumeRequest($listener,$content);
+        } catch (\Exception $ex) {
+            self::printLog('消费异常'.$ex->getMessage());
+        }
+
+        //重新入队
+        if ($iscConsume === false) {
+            try {
+                $redisManager->rPush($listener->getKey(), $content);
+            } catch (\Exception $e) {
+                self::printLog('入队异常：'.$e->getMessage());
+            }
+        }
+    }
+
+    private static function consumeRequest(Listener $listener,array $content): bool {
+
+        $url = $listener->getCurl();
+        $paramStr = json_encode($content, JSON_UNESCAPED_UNICODE);
+        $jsonData = Tools::HttpPostJson($url, $paramStr, 3);
+
+        self::printLog([
+            'url'=>$url,
+            'paramStr'=>$paramStr,
+            'jsonData'>$jsonData
+        ]);
+
+        $arrData = @json_decode($jsonData, true);
+
+        if (isset($arrData['code']) && in_array($arrData['code'], [0, 200, '0', '200'], true)) {
+            return true;
+        }
+
+        return false;
     }
 }
