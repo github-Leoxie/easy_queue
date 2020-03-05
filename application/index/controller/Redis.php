@@ -4,6 +4,7 @@ namespace app\index\controller;
 use app\common\controller\Main;
 use app\common\Listener;
 use app\common\Lock;
+use app\common\pcntl\process\Master;
 use core\lib\RedisManager;
 use core\lib\Request;
 use core\lib\Rule;
@@ -86,7 +87,59 @@ class Redis extends Main
 
         $this->assign('no',$no);
 
-        $this->display('edit');
+        $this->display('Redis/edit');
     }
 
+    public function index(): void {
+
+        $this->createBtnStyle(Master::getLogFileModifyTime());
+
+        $this->assign('tableString',$this->createHtmlString());
+
+        $this->display('Redis/index');
+    }
+
+    private function createBtnStyle($lastModifyTime): void {
+        if(time() - 60 > $lastModifyTime){
+            $this->assign('queueStatus','off');
+        }else{
+            $this->assign('queueStatus','on');
+        }
+    }
+
+    private function createHtmlString(): string {
+
+        $listenList = Lock::getRedisListener();
+
+        $str = '';
+        foreach($listenList as $no=>$item){
+
+            $detailArr = Master::getListenerProcess($no);
+            $detailString = '进程数量：'.count($detailArr).NEW_LINE;
+
+            foreach($detailArr as $pid=>$time){
+                $detailString .= "{$time}（{$pid}）".NEW_LINE;
+            }
+
+            $edit = 'location.href="/index/redis/edit?no='.$no.'"';
+            $delete = 'location.href="/index/redis/delete?no='.$no.'"';
+            $log = 'location.href="/index/redis/log?no='.$no.'"';
+
+            $str .= "<tr>
+                       <td>{$item['name']}</td>
+                       <td>{$item['key']}</td>
+                       <td>$detailString</td>
+                       <td>{$item['maxlength']}</td>
+                       <td>{$item['processNormal']}</td>
+                       <td>{$item['processMax']}</td>
+                       <td>
+                         <button class='btn' onclick='{$edit}'>编辑</button>
+                         <button class='btn btn-danger' onclick='{$delete}'>删除</button>
+                         <button class='btn btn-success' onclick='{$log}'>查看日志</button>
+                       </td>
+                   </tr>";
+        }
+
+        return $str;
+    }
 }

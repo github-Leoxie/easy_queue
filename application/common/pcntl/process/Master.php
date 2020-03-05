@@ -36,13 +36,17 @@ class Master extends Process
                     self::scanChildProcess($no);
                 }
 
+            }catch (\Exception $ex){
+                self::printLog('异常情况：'.$ex->getMessage());
+            }
+
+            try {
                 //观察Manager进程是否需要kill
                 if (!self::getMasterPidFileExist()) {
                     self::printLog('需要重启脚本', true);
                 }
-
             }catch (\Exception $ex){
-                self::printLog('异常情况：'.$ex->getMessage());
+                self::printLog('检测文件异常：'.$ex->getMessage());
             }
         }
     }
@@ -109,6 +113,7 @@ class Master extends Process
     }
 
     private static function getMasterPidFileExist(): bool {
+        self::printLog('检测文件：'.self::getPidFile(self::getFilePre()));
         return file_exists(self::getPidFile(self::getFilePre()));
     }
 
@@ -194,7 +199,7 @@ class Master extends Process
         return Storage::read(self::getPidFile($no));
     }
 
-    public static function killProcess($delAndMaster = false): bool {
+    public static function killProcess(): bool {
         $pidDir = self::$processDir;
         if(!file_exists($pidDir)){
             return false;
@@ -204,19 +209,13 @@ class Master extends Process
             if(in_array($fileName,['.','..'])){
                 continue;
             }
-
-            if($delAndMaster === false
-                && strpos($fileName,'master') !== false
-                && strpos($fileName,'pid') !== false
-            ){
+            if(strpos($fileName,'.log')>0){
                 continue;
             }
-
             $filePath = $pidDir.$fileName;
             try {
                 exec("rm -f $filePath");
             }catch (\Exception $ex){
-
             }
         }
 

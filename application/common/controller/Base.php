@@ -2,6 +2,7 @@
 namespace app\common\controller;
 
 use core\Controller;
+use core\lib\Route;
 
 /**
  * Class Base
@@ -13,5 +14,6 @@ class Base extends Controller
 {
     public function __construct() {
        $this->assign('xdebug','XDEBUG_SESSION_START=PHPSTORM');
+       $this->assign('version',time());
     }
 }

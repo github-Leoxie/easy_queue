@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>管理后台</title>
-    <script src="{{JS_PATH}}jquery-1.8.3.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{CSS_PATH}}easy.css">
+    {{include='Base/header'}}
 </head>
 <body>
    <div class="whole">
-       <section class="header">
-           <span class="title"><a href="/">欢迎来到EasyQueue</a></span>
-           <span class="userName">
-               {{$userName}}  /
-               <a href="/index/login/loginOut?{{$xdebug}}">注销账号</a>  /
-               <a href="/index/redis/edit?{{$xdebug}}">新增队列</a>
-           </span>
-       </section>
+       {{include='Base/common'}}
        <section class="container">
            <section class="warn">
                请注意！！！！！！！<br/>

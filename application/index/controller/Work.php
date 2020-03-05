@@ -1,9 +1,9 @@
 <?php
-namespace app\server;
+namespace app\index\controller;
 
+use app\common\controller\Base;
 use app\common\pcntl\Manager;
 use app\common\pcntl\process\Master;
-use app\common\pcntl\process\Process;
 
 /**
  * Class Work
@@ -11,23 +11,24 @@ use app\common\pcntl\process\Process;
  * mail 811329263@qq.com
  * @package app\server
  */
-class Work
+class Work extends Base
 {
     public function start(): void {
         //重启的时候，清除pid文件
         $this->stop();
-        echo ">>开启进程<<\n";
 
+        Master::printLog('>>开启进程<<');
         (new Manager())->run();
     }
 
     public function stop(): void {
 
-        echo ">>退出进程<<\n";
+        Master::printLog('>>退出进程<<');
+
         $times = 10;
         while($times--) {
-            Master::killProcess(true);
-            echo "剩余进度{$times}/10\n";
+            Master::killProcess();
+            Master::printLog("剩余进度{$times}/10");
             sleep(1);
         }
     }

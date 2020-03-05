@@ -1,0 +1,27 @@
+.item-group{
+    width:90%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.item{
+    width:25%;
+    float: left;
+    box-sizing: border-box;
+    padding:0 20px;
+}
+.item item{
+    display: block;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+    border-radius: 8px;
+    margin-top:20px;
+    /*color: #a94442;*/
+    /*background-color: #f2dede;*/
+    color: #31708f;
+    background-color: #d9edf7;
+    cursor: pointer;
+}
+.item item a{
+    color: #31708f;
+}

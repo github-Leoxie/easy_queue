@@ -20,14 +20,21 @@ class Route
     public static $COMPLETE_URL = '';
 
     public static function parseUrlInfo(): bool {
+        if(IS_CLI){
+            return self::parseUrlInCli();
+        }else{
+            return self::parseUrlInCgi();
+        }
+    }
 
+    private static function parseUrlInCgi(): bool {
         //除了http/https部分的最完整连接
         $completeUrl = $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
 
         //去掉参数部分
         $parseCompleteUrl = current(explode('?', $completeUrl));
-        $bindRoute = Config::get('bindRoute');
-        [$serverName, $module, $controller, $action] = explode('/', $bindRoute?:$parseCompleteUrl);
+        //$bindRoute = Config::get('bindRoute');
+        [$serverName, $module, $controller, $action] = explode('/', $parseCompleteUrl);
 
         //判断当前是http还是https，完善最完整连接
         self::$MODULE = self::getModule($module);
@@ -40,6 +47,21 @@ class Route
 
         return true;
     }
+
+    private static function parseUrlInCli(): bool {
+
+        global $argv;
+
+        [$serverName,$module, $controller, $action] = explode('/', $argv[1]??'');
+
+        //判断当前是http还是https，完善最完整连接
+        self::$MODULE = self::getModule($module);
+        self::$ACTION = self::getAction($action);
+        self::$CONTROLLER = self::getController($controller);
+
+        return true;
+    }
+
 
     public static function isHttps(): bool {
 

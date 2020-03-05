@@ -44,6 +44,13 @@ abstract class Process
         $isDie === true?die():'';
     }
 
+    public static function getLogFileModifyTime(){
+
+        $filePre = (static::class)::getFilePre();
+        $file = self::getLogFile($filePre);
+        return filemtime($file);
+    }
+
     public static function loopDebug($file,$data): bool {
 
         if(Config::get('pcntlLoopDebug') !== true){

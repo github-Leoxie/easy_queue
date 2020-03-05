@@ -19,10 +19,12 @@ html,body,table,div{
     line-height: 60px;
     padding: 0 20px;
 }
-.header a{
+a{
     text-decoration: none;
-    color:#999;
     cursor: pointer;
+}
+.header a{
+    color:#999;
 }
 
 .container{
@@ -34,23 +36,27 @@ html,body,table,div{
 }
 .container td,.container th{
     text-align: center;
-    border-top:1px solid #efefef;
-    border-left: 1px solid #efefef;
+    border-top:1px solid #dfdfdf;
+    border-left: 1px solid #dfdfdf;
     border-spacing: 0;
     color: #999;
 }
 .container th{
     height: 40px;
     line-height: 40px;
-    background-color: #999;
-    color:#fff;
+    background-color: #d9edf7;
+    color:#31708f;
 }
 .container th:first-child{
     border-left: none;
 }
 
 .container tr:last-child td{
-    border-bottom: 1px solid #efefef;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.container td:first-child{
+    border-left: none;
 }
 
 .container td{
@@ -68,7 +74,7 @@ html,body,table,div{
 }
 
 .container table .btn{
-    display: block;
+    display: inline-block;
     margin: 10px auto 0 auto;
 }
 
@@ -112,4 +118,92 @@ html,body,table,div{
     color:#999;
     margin: 20px auto 0 auto;
     line-height: 30px;
+}
+
+.breadcrumb .navigation{
+    color:#999;
+    height:34px;
+    line-height: 34px;
+    font-size:14px;
+    margin-top: 8px;
+    float:left;
+}
+.breadcrumb .btn{
+    height:24px;
+    line-height: 24px;
+    margin-top:8px;
+    float:right;
+}
+.breadcrumb:after{
+    content:'';
+    width:0;
+    height:0;
+    display: block;
+    clear: both;
+}
+.breadcrumb{
+    height:50px;
+    /*background-color: #efefef;*/
+    padding:0 2%;
+}
+.breadcrumb .navigation a{
+    color:#31708f;
+}
+.breadcrumb .btn a{
+    color:#fff;
+}
+
+.queueOption{
+    padding:20px 2%;
+    font-size:14px;
+    color:#999;
+    border-top:1px solid #dfdfdf;
+}
+.queueOption .off{
+    background-color: #f00;
+}
+
+.queueOption .status span{
+    width:12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.queueOption .on{
+    background-color: #0f0;
+}
+
+.queueOption .btn{
+    width:80px;
+    margin-left:20px;
+}
+.queueOption div{
+    float:left;
+}
+.queueOption .status{
+    line-height: 32px;
+    margin-right: 40px;
+}
+
+.clearfix:after{
+    width:0;
+    height: 0;
+    content:'';
+    display: block;
+    clear: both;
+}
+
+.btn-danger{
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.btn-success{
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.queueOption .big-btn{
+    width:120px;
+    margin-left:80px;
 }

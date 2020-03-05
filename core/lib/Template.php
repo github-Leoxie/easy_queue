@@ -60,7 +60,6 @@ class Template
         $variableOrConstant = current($result);
         //做常量&变量替换
         $content = self::replaceData($variableOrConstant,$content);
-
         return $content;
     }
 
@@ -75,14 +74,24 @@ class Template
     private static function replaceVariable(string $variable,string $content): string {
 
         $variableName = self::extractVariableName($variable);
+        $trimVariableName = trim($variableName,'$');
 
-        if(defined($variableName)){
+        if(strpos($variableName,'include') === 0
+            && strpos($variableName,'=')){
+            [$include, $filePath] = explode('=',$variableName);
+            if($include === 'include'){
+                $html = self::loadTemplate(trim($filePath,"'"));//加载公用模块
+                $content = str_replace($variable,$html,$content);
+            }
+        }
+
+        if(defined($variableName) && strpos($variableName,'$') === false){
             $constantValue = constant($variableName);
             $content = str_replace($variable,$constantValue,$content);
         }
 
-        if(isset(self::$assignVariable[$variableName])){
-            $content = str_replace($variable,self::$assignVariable[$variableName],$content);
+        if(isset(self::$assignVariable[$trimVariableName]) && strpos($variableName,'$') !== false){
+            $content = str_replace($variable,self::$assignVariable[$trimVariableName],$content);
         }
 
         return $content;
@@ -94,7 +103,7 @@ class Template
      * @return string
      */
     private static function extractVariableName(string $variable): string {
-        return trim($variable,'{}$');
+        return trim($variable,'{}');
     }
 
     public static function output(string $content,bool $isDie): void {
