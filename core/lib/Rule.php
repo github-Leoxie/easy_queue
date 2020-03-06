@@ -30,6 +30,7 @@ class Rule
 
         foreach($rule as $ruleKey=>$ruleItem){
             if(!isset($params[$ruleKey]) && strpos($ruleItem,'require') !== false){
+                self::$error = "$ruleKey is require";
                 return false;
             }
 

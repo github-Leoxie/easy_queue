@@ -12,9 +12,9 @@
        </section>
        <section class="queueOption clearfix">
            <div class="status">主进程状态：<span class="{{$queueStatus}}"></span></div>
-           <div class="btn">重启进程</div>
-           <div class="btn btn-danger">关闭进程</div>
-           <div class="btn big-btn btn-success">查看主进程日志</div>
+           <div class="btn restart">启动进程</div>
+           <div class="btn btn-danger close">关闭进程</div>
+           <div class="btn big-btn btn-success log">查看主进程日志</div>
        </section>
        <section class="container">
            <table cellpadding="0" cellspacing="0">
@@ -33,5 +33,96 @@
            </table>
        </section>
    </div>
+   <div class="modal">
+       <div class="bg">
+           <div class="context"></div>
+           <span class="after">X</span>
+       </div>
+   </div>
+   <script>
+
+       var logStart = false;
+
+       $('.queueOption').delegate('.restart','click',function(){
+           if(confirm('确定要重启？')){
+               $.ajax({
+                   type: 'POST',
+                   url: '/index/Work/webRestart',
+                   dataType: 'json',
+                   success: function(){
+                       logStart = true;
+                       printLog('master');
+                   },
+                   error:function(){
+                       alert('启动失败');
+                   }
+               });
+           }
+       });
+
+       function printChildLog(logName){
+           logStart = true;
+           printLog(logName);
+       }
+
+       function printLog(logName){
+
+           if(logStart == false){
+               return false;
+           }
+           $('.modal').show();
+
+           $.ajax({
+               type: 'POST',
+               url: '/index/Work/webLog',
+               data: {logName:logName},
+               dataType: 'json',
+               success: function(res){
+                   if(res.msg != 'success'){
+                       alert(res.msg);
+                       return false;
+                   }
+                   if(logStart == false){
+                       return false;
+                   }
+                   $('.modal .bg .context').html(res.data.context);
+                   printLog(logName);
+                   return true;
+               },
+               error:function(){
+                   $('.modal .bg .context').html('');
+                   $('.modal').hide();
+               }
+           });
+       }
+
+       $('.queueOption').delegate('.close','click',function(){
+           if(confirm('确定要关闭？')){
+               $.ajax({
+                   type: 'POST',
+                   url: '/index/Work/webStop',
+                   dataType: 'json',
+                   success: function(){
+                       logStart = true;
+                       printLog('master');
+                   },
+                   error:function(){
+                       alert('启动失败');
+                   }
+               });
+           }
+       });
+
+       $('.queueOption').delegate('.log','click',function(){
+           logStart = true;
+           printLog('master');
+       });
+
+       $('.modal').delegate('.after','click',function(){
+           logStart = false;
+           $('.modal .bg .context').html('');
+           $('.modal').hide();
+       });
+   </script>
 </body>
 </html>

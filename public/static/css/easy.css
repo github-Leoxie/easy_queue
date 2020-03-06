@@ -207,3 +207,33 @@ a{
     width:120px;
     margin-left:80px;
 }
+
+.modal{
+    position: absolute;
+    top:15%;
+    width:60%;
+    height:500px;
+    left:20%;
+    background-color: #000;
+    color:#fff;
+    border-radius: 5px;
+    display: none;
+    padding-left:20px;
+}
+.modal .bg{
+    position:relative;
+}
+
+.modal .bg .context{
+    overflow: scroll;
+}
+
+.modal .bg .after{
+    width:20px;
+    height: 20px;
+    color:#fff;
+    position:absolute;
+    right:10px;
+    top:10px;
+    cursor: pointer;
+}

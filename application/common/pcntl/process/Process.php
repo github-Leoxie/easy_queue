@@ -20,7 +20,7 @@ abstract class Process
     abstract public static function getScriptName();
     abstract public static function getFilePre();
 
-    protected static function getLogFile(string $name): string {
+    public static function getLogFile(string $name): string {
         File::create(self::$processDir);
         return self::$processDir.$name.'.log';
     }
@@ -36,7 +36,7 @@ abstract class Process
         if(is_array($data)){
             $data = var_export($data,true);
         }
-        $str = NEW_LINE.$data."({$currentPid})".NEW_LINE;
+        $str = NEW_LINE.$data."(pid:{$currentPid})".NEW_LINE;
 
         $filePre = (static::class)::getFilePre();
         self::loopDebug(self::getLogFile($filePre),$str);

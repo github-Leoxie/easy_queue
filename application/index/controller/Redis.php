@@ -5,10 +5,12 @@ use app\common\controller\Main;
 use app\common\Listener;
 use app\common\Lock;
 use app\common\pcntl\process\Master;
+use app\common\pcntl\process\Process;
+use app\common\Tools;
+use core\lib\Output;
 use core\lib\RedisManager;
 use core\lib\Request;
 use core\lib\Rule;
-use core\lib\Storage;
 
 /**
  * Class Redis
@@ -64,7 +66,6 @@ class Redis extends Main
         $this->redirect('\\');
     }
 
-
     public function edit(): void {
         $get = Request::get();
 
@@ -100,7 +101,7 @@ class Redis extends Main
     }
 
     private function createBtnStyle($lastModifyTime): void {
-        if(time() - 60 > $lastModifyTime){
+        if(time() - 20 > $lastModifyTime){
             $this->assign('queueStatus','off');
         }else{
             $this->assign('queueStatus','on');
@@ -123,7 +124,7 @@ class Redis extends Main
 
             $edit = 'location.href="/index/redis/edit?no='.$no.'"';
             $delete = 'location.href="/index/redis/delete?no='.$no.'"';
-            $log = 'location.href="/index/redis/log?no='.$no.'"';
+            $log = 'printChildLog("child")';
 
             $str .= "<tr>
                        <td>{$item['name']}</td>
